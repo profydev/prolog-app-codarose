@@ -152,6 +152,10 @@ const CollapseMenuItem = styled(MenuItemButton)`
   }
 `;
 
+const arrowRightIcon = styled.img`
+  translate-x: 180deg;
+`;
+
 export function SidebarNavigation() {
   const router = useRouter();
   const { isSidebarCollapsed, toggleSidebar } = useContext(NavigationContext);
