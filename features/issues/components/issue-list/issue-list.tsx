@@ -59,6 +59,7 @@ const PageInfo = styled.div`
 `;
 
 const PageNumber = styled.span`
+  color: ${color("gray", 700)};
   ${textFont("sm", "medium")}
 `;
 
