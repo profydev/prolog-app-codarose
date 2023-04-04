@@ -152,6 +152,10 @@ const CollapseMenuItem = styled(MenuItemButton)`
   }
 `;
 
+const arrowRightIcon = styled.img`
+  translate-x: 180deg;
+`;
+
 export function SidebarNavigation() {
   const router = useRouter();
   const { isSidebarCollapsed, toggleSidebar } = useContext(NavigationContext);
@@ -195,9 +199,14 @@ export function SidebarNavigation() {
               isCollapsed={isSidebarCollapsed}
               onClick={() => alert("Support")}
             />
+
             <CollapseMenuItem
               text="Collapse"
-              iconSrc="/icons/arrow-left.svg"
+              iconSrc={
+                isSidebarCollapsed
+                  ? "/icons/arrow-right.svg"
+                  : "/icons/arrow-left.svg"
+              }
               isCollapsed={isSidebarCollapsed}
               onClick={() => toggleSidebar()}
             />
