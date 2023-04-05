@@ -39,7 +39,10 @@ const Container = styled.div<{ isCollapsed: boolean }>`
           width: 5.1875rem;
         }
 
-        ${Logo} {
+        ${LogoLargeScreen} {
+          width: 1.4375rem;
+        }
+        ${LogoSmallScreen} {
           width: 1.4375rem;
         }
       `};
@@ -68,12 +71,20 @@ const Header = styled.header`
   }
 `;
 
-const Logo = styled.img`
+const LogoSmallScreen = styled.img`
+  display: block;
   width: 7.375rem;
-
   @media (min-width: ${breakpoint("desktop")}) {
-    margin: ${space(0, 4)};
+    display: none;
   }
+`;
+
+const LogoLargeScreen = styled.img<{ isSidebarCollapsed: boolean }>`
+  @media (max-width: ${breakpoint("desktop")}) {
+    display: none;
+  }
+  display: block;
+  width: 7.375rem;
 `;
 
 const MenuButton = styled(Button)`
@@ -85,6 +96,9 @@ const MenuButton = styled(Button)`
 const MenuIcon = styled.img`
   display: block;
   width: ${space(10)};
+ 
+}
+ 
 `;
 
 const MenuOverlay = styled.div<{ isMobileMenuOpen: boolean }>`
@@ -131,7 +145,7 @@ const Nav = styled.nav<{ isMobileMenuOpen: boolean }>`
     width: calc(100% - ${space(8)});
     padding: ${space(0, 4, 8)};
     transform: none;
-  }
+   
 `;
 
 const List = styled.ul`
@@ -152,10 +166,6 @@ const CollapseMenuItem = styled(MenuItemButton)`
   }
 `;
 
-const arrowRightIcon = styled.img`
-  translate-x: 180deg;
-`;
-
 export function SidebarNavigation() {
   const router = useRouter();
   const { isSidebarCollapsed, toggleSidebar } = useContext(NavigationContext);
@@ -164,7 +174,10 @@ export function SidebarNavigation() {
     <Container isCollapsed={isSidebarCollapsed}>
       <FixedContainer>
         <Header>
-          <Logo
+          <LogoSmallScreen src="/icons/logo-large.svg" alt="logo" />
+
+          <LogoLargeScreen
+            isSidebarCollapsed={isSidebarCollapsed}
             src={
               isSidebarCollapsed
                 ? "/icons/logo-small.svg"
@@ -172,6 +185,7 @@ export function SidebarNavigation() {
             }
             alt="logo"
           />
+
           <MenuButton onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}>
             <MenuIcon
               src={isMobileMenuOpen ? "/icons/close.svg" : "/icons/menu.svg"}
