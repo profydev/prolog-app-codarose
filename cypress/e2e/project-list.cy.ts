@@ -8,7 +8,7 @@ describe("Project List", () => {
     }).as("getProjects");
 
     // open projects page
-    cy.visit("http://localhost:3001/dashboard");
+    cy.visit("http://localhost:3000/dashboard");
 
     // wait for request to resolve
     cy.wait("@getProjects");
