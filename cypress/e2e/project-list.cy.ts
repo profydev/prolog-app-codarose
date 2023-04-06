@@ -1,4 +1,3 @@
-import capitalize from "lodash/capitalize";
 import mockProjects from "../fixtures/projects.json";
 
 describe("Project List", () => {
@@ -21,22 +20,29 @@ describe("Project List", () => {
     });
 
     it("renders the projects", () => {
-      const languageNames = ["React", "Node.js", "Python"];
+      cy.get("#project_first")
+        .children()
+        .should("contain", "73")
+        .and("contain", "7")
+        .and("contain", "Critical")
+        .and("contain", "Frontend - Web Test")
+        .and("contain", "React");
 
-      // get all project cards
-      cy.get("main")
-        .find("li")
-        .each(($el, index) => {
-          // check that project data is rendered
-          cy.wrap($el).contains(mockProjects[index].name);
-          cy.wrap($el).contains(languageNames[index]);
-          cy.wrap($el).contains(mockProjects[index].numIssues);
-          cy.wrap($el).contains(mockProjects[index].numEvents24h);
-          cy.wrap($el).contains(capitalize(mockProjects[index].status));
-          cy.wrap($el)
-            .find("a")
-            .should("have.attr", "href", "/dashboard/issues");
-        });
+      cy.get("#project_second")
+        .children()
+        .should("contain", "25")
+        .and("contain", "5")
+        .and("contain", "Warning")
+        .and("contain", "Backend")
+        .and("contain", "Node");
+
+      cy.get("#project_third")
+        .children()
+        .should("contain", "0")
+        .and("contain", "0")
+        .and("contain", "Stable")
+        .and("contain", "ML Service")
+        .and("contain", "Python");
     });
   });
 });

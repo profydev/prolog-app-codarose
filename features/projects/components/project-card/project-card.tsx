@@ -17,6 +17,12 @@ const languageNames = {
   [ProjectLanguage.python]: "Python",
 };
 
+const statusMappings = {
+  [ProjectStatus.stable]: "stable",
+  [ProjectStatus.warning]: "warning",
+  [ProjectStatus.critical]: "critical",
+};
+
 const statusColors = {
   [ProjectStatus.stable]: BadgeColor.success,
   [ProjectStatus.warning]: BadgeColor.warning,
@@ -102,9 +108,9 @@ const ViewIssuesAnchor = styled(Link)`
 `;
 
 export function ProjectCard({ project }: ProjectCardProps) {
-  const { name, language, numIssues, numEvents24h, status } = project;
+  const { name, language, numIssues, numEvents24h, status, id } = project;
   return (
-    <Container>
+    <Container id={`project_${id}`}>
       <TopContainer>
         <NameAndIconContainer>
           <LanguageIcon src={`/icons/${language}.svg`} alt={language} />
@@ -123,7 +129,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <IssuesNumber>{numEvents24h}</IssuesNumber>
           </Issues>
           <Status>
-            <Badge color={statusColors[status]}>{capitalize(status)}</Badge>
+            <Badge color={statusColors[status]}>
+              {capitalize(statusMappings[status])}
+            </Badge>
           </Status>
         </InfoContainer>
       </TopContainer>
