@@ -108,9 +108,9 @@ const ViewIssuesAnchor = styled(Link)`
 `;
 
 export function ProjectCard({ project }: ProjectCardProps) {
-  const { name, language, numIssues, numEvents24h, status } = project;
+  const { name, language, numIssues, numEvents24h, status, id } = project;
   return (
-    <Container>
+    <Container id={`project_${id}`}>
       <TopContainer>
         <NameAndIconContainer>
           <LanguageIcon src={`/icons/${language}.svg`} alt={language} />
