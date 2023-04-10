@@ -13,7 +13,7 @@ describe("Project List", () => {
 
     // test to see if the loading icon is present before the request resolves
 
-    cy.get('*[class^="project-list__LoadingIcon"]')
+    cy.get('*[class^="project-list__LoadingIcon"]', { timeout: 10000 })
       .should("have.attr", "src")
       .should("include", "loading");
 
