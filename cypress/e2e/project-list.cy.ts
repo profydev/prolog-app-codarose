@@ -5,14 +5,15 @@ describe("Project List", () => {
     // setup request mock
     cy.intercept("GET", "https://prolog-api.profy.dev/project", {
       fixture: "projects.json",
+      delayMs: 10000,
     }).as("getProjects");
 
     // open projects page
     cy.visit("http://localhost:3000/dashboard");
 
     // test to see if the loading icon is present before the request resolves
-    cy.wait(1000);
-    cy.get('*[class^="project-list__LoadingIcon"]', { timeout: 10000 })
+
+    cy.get('*[class^="project-list__LoadingIcon"]')
       .should("have.attr", "src")
       .should("include", "loading");
 
