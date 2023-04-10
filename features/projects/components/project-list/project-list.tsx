@@ -42,13 +42,14 @@ const LoadingIcon = styled.img`
   height: 58px;
 `;
 
+const ErrorIndicator = styled.div``;
 export function ProjectList() {
   const { data, isLoading, isError, error } = useGetProjects();
 
   if (isLoading) {
     return (
       <LoadingIndicator>
-        <LoadingIcon src="/icons/loading-1.svg" />
+        <LoadingIcon src="/icons/loading-1.svg" alt="loading" />
       </LoadingIndicator>
     );
   }
