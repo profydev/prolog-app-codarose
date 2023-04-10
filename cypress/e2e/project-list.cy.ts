@@ -10,6 +10,12 @@ describe("Project List", () => {
     // open projects page
     cy.visit("http://localhost:3000/dashboard");
 
+    // test to see if the loading icon is present before the request resolves
+
+    cy.get('*[class^="project-list__LoadingIcon"]')
+      .should("have.attr", "src")
+      .should("include", "loading");
+
     // wait for request to resolve
     cy.wait("@getProjects");
   });
@@ -20,6 +26,8 @@ describe("Project List", () => {
     });
 
     it("renders the projects", () => {
+      // see the loading indicator
+
       cy.get("#project_first")
         .children()
         .should("contain", "73")
