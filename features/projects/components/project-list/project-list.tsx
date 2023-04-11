@@ -1,5 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import { breakpoint, space, color } from "@styles/theme";
+
 import { ProjectCard } from "../project-card";
 import { useGetProjects } from "../../api/use-get-projects";
 
@@ -31,7 +32,6 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 
-align-items: center;
 @media (min-width: ${breakpoint("desktop")}) {
   height: auto;
 
@@ -42,6 +42,7 @@ const LoadingIcon = styled.img`
   width: 58px;
   height: 58px;
 `;
+
 
 const ErrorIndicator = styled.div`
   display: flex;
@@ -75,6 +76,9 @@ const ErrorReloadButton = styled.button`
   margin: 0;
 `;
 
+
+
+const ErrorIndicator = styled.div``;
 export function ProjectList() {
   const { data, isLoading, isError, error, refetch } = useGetProjects();
 
