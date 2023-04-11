@@ -94,7 +94,7 @@ export function ProjectList() {
     console.error(error);
     return (
       <ErrorIndicator>
-        <ErrorMessage id="error-message">
+        <ErrorMessage>
           <img src="/icons/error-icon.svg" />
           There was a problem while loading the project data
         </ErrorMessage>
