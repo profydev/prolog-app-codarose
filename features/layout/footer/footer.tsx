@@ -5,7 +5,7 @@ import styled, { css } from "styled-components";
 import { Routes } from "@config/routes";
 import { Button } from "@features/ui";
 import { breakpoint, color, space, zIndex } from "@styles/theme";
-import { version } from "package.json";
+import AppVersion from "./AppVersion";
 
 // TODOS
 // Need to implement a footer that....
@@ -93,7 +93,7 @@ export function Footer() {
     <FooterNav>
       <FooterContainer>
         <VersionNumber>
-          <div>Version: {version}</div>
+          <AppVersion />
         </VersionNumber>
         <FooterMenuContainer>
           {menuItems.map((menuItem, index) => (
