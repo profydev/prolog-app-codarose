@@ -43,7 +43,6 @@ const LoadingIcon = styled.img`
   height: 58px;
 `;
 
-
 const ErrorIndicator = styled.div`
   display: flex;
   justify-content: space-between;
@@ -76,9 +75,6 @@ const ErrorReloadButton = styled.button`
   margin: 0;
 `;
 
-
-
-const ErrorIndicator = styled.div``;
 export function ProjectList() {
   const { data, isLoading, isError, error, refetch } = useGetProjects();
 
