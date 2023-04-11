@@ -18,6 +18,23 @@ describe("Project List", () => {
     cy.wait("@getProjects");
   });
 
+  // check to make sure that the error handling is working
+  describe("API error handling", () => {
+    it("displays error message on failure to fetch API data", () => {
+      // Intercept the API request and return a custom response with a non-200 status code
+      cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+        statusCode: 500,
+        fixture: "projects.json",
+      }).as("getProjectsFailure");
+
+      // Visit the page that makes the API request
+      cy.visit("http://localhost:3000/dashboard").wait(15000);
+
+      // Check that the custom error message is displayed before request resolves
+      cy.get('[src*="error-icon"]').should("be.visible");
+    });
+  });
+
   context("desktop resolution", () => {
     beforeEach(() => {
       cy.viewport(1025, 900);
