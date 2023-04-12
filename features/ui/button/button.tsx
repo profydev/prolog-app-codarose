@@ -78,7 +78,7 @@ const ButtonContainer = styled.button<ButtonProps>`
       case ButtonVariant.inherit:
         return css`
           background: inherit;
-          color: ${color("gray", 100)};
+          color: inherit;
           font-weight: inherit;
           margin: 0;
           padding: 0;
