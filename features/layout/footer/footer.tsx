@@ -1,18 +1,10 @@
-import { Router, useRouter } from "next/router";
 import Link from "next/link";
-import { useContext, useState } from "react";
-import styled, { css } from "styled-components";
-import { Routes } from "@config/routes";
-import { Button } from "@features/ui";
-import { breakpoint, color, space, zIndex } from "@styles/theme";
-import AppVersion from "./AppVersion";
+import styled from "styled-components";
+import { breakpoint, color } from "@styles/theme";
 
-// TODOS
-// Need to implement a footer that....
-// Takes up full width on small screens
-// takes up remainder of width on deskop accounting for the width of the
-// sidebar navigation - needs to be aware of collapsed state, or go 'behind'
-// the sidebar.
+type FooterProps = {
+  appVersion: string | undefined;
+};
 
 const menuItems = [
   { text: "Docs", href: "#" },
@@ -88,13 +80,11 @@ const Logo = styled.img`
     margin-right: 30px;
   }
 `;
-export function Footer() {
+export function Footer({ appVersion }: FooterProps) {
   return (
     <FooterNav>
       <FooterContainer>
-        <VersionNumber>
-          <AppVersion />
-        </VersionNumber>
+        <VersionNumber>Version: {appVersion}</VersionNumber>
         <FooterMenuContainer>
           {menuItems.map((menuItem, index) => (
             <FooterButton key={index} {...menuItem} href={menuItem.href}>

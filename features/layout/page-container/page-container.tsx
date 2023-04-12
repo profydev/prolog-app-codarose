@@ -61,6 +61,8 @@ const Info = styled.div`
 `;
 
 export function PageContainer({ children, title, info }: PageContainerProps) {
+  const appVersion = process.env.APP_VERSION_NUMBER;
+
   // combine title in a single string to prevent below warning
   // "Warning: A title element received an array with more than 1 element as children."
   const documentTitle = `ProLog - ${title}`;
@@ -79,7 +81,7 @@ export function PageContainer({ children, title, info }: PageContainerProps) {
           <Info>{info}</Info>
           {children}
         </ContentContainer>
-        <Footer />
+        <Footer appVersion={appVersion} />
       </Main>
       {/* <ContentFooter />  */}
     </Container>
