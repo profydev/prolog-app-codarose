@@ -20,7 +20,7 @@ export const ListItem = styled.li<{ isActive?: boolean }>`
   background: ${(props) =>
     props.isActive ? color("gray", 700)(props) : "transparent"};
   border-radius: 6px;
-
+  color: ${color("gray", 100)};
   &:first-child {
     margin-top: 0;
   }
