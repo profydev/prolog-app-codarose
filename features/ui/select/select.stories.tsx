@@ -34,6 +34,7 @@ export const Default = Template.bind({});
 Default.args = {
   hasError: false,
   disabled: false,
+
 };
 Default.parameters = {
   viewMode: "docs",
