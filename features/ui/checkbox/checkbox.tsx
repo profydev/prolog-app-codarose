@@ -1,7 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import { color, textFont, space } from "@styles/theme";
-import { useState } from "react";
 
 // const [checkstate, setCheckstate] = useState("unchecked");
 export enum CheckboxSize {
