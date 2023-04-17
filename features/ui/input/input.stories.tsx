@@ -1,32 +1,32 @@
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { Select } from "./select";
+import { Input } from "./input";
 
 export default {
-  title: "UI/Select",
-  component: Select,
+  title: "UI/Input",
+  component: Input,
   parameters: {
     layout: "fullscreen",
   },
-  argTypes: { onClick: { action: "clicked " } },
-} as ComponentMeta<typeof Select>;
+  argTypes: { onClick: { action: "clicked" } },
+} as ComponentMeta<typeof Input>;
 
-const Template: ComponentStory<typeof Select> = ({
+const Template: ComponentStory<typeof Input> = ({
   hasError,
-  options,
+  inputIcon,
   labelText,
   errorMessage,
   hintMessage,
   placeholder,
 }) => (
   <div>
-    <Select
+    <Input
       hintMessage={hintMessage}
       hasError={hasError}
       errorMessage={errorMessage}
-      options={options}
+      inputIcon={inputIcon}
       labelText={labelText}
       placeholder={placeholder}
-    ></Select>
+    ></Input>
   </div>
 );
 
