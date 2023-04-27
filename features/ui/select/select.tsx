@@ -1,28 +1,30 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
-import { color, textFont, space } from "@styles/theme";
+import { color } from "@styles/theme";
 
-const nameData = [
-  "Olivia Rhye",
-  "Phoenix Baker",
-  "Lana Steiner",
-  "Demi Wilkinson",
-  "Candice Wu",
-  "Natali Craig",
-  "Drew Cano",
-];
+// const nameData = [
+//   "Olivia Rhye",
+//   "Phoenix Baker",
+//   "Lana Steiner",
+//   "Demi Wilkinson",
+//   "Candice Wu",
+//   "Natali Craig",
+//   "Drew Cano",
+// ];
 type SelectDropdownProps = {
   hasError?: boolean;
-  options?: [];
+  options?: string[];
   labelText?: string;
   errorMessage?: string;
   hintMessage?: string;
   placeholder?: string;
   disabled?: boolean;
+  onChange?: (type: any) => void;
+  value?: any;
 };
 
 const SelectDropdownContainer = styled.div`
-  width: 320px;
+  min-width: fit-content;
 `;
 const SelectDropdown = styled.div<SelectDropdownProps>`
   position: relative;
@@ -30,7 +32,7 @@ const SelectDropdown = styled.div<SelectDropdownProps>`
   text-align: left;
   margin: 0px;
   padding: 0;
-  width: 320px;
+  min-width: 160px;
   box-sizing: border-box;
   color: ${color("gray", 900)};
   font-size: 1rem;
@@ -109,6 +111,7 @@ const SelectDropdownList = styled.ul<SelectDropdownProps>`
   height: fit-content;
   font-size: 1rem;
   background: white;
+
   box-shadow: 0px 12px 16px -4px ${color("gray", 100)},
     0px 4px 6px -2px ${color("gray", 100)};
   border-radius: 0.5rem;
@@ -167,22 +170,25 @@ const Error = styled.div`
 
 export const Select: React.FC<SelectDropdownProps> = ({
   hasError = false,
-  options = nameData,
-  labelText = "Team member",
+  options = [],
+  labelText = "",
   disabled = false,
-  errorMessage = "This is an error message",
-  hintMessage = "This is a hint",
-  placeholder = "Select team member",
+  errorMessage = "",
+  hintMessage = "",
+  placeholder = "",
+  value = "",
+  onChange,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [optionSelected, setOptionSelected] = useState("");
+  const [optionSelected, setOptionSelected] = useState(value || "");
   const toggleOpen = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleSelect = (value: any) => {
-    setOptionSelected(value);
+  const handleSelect = (newValue: string) => {
+    setOptionSelected(newValue);
     setIsOpen(false);
+    onChange && onChange(newValue);
   };
   return (
     <SelectDropdownContainer>

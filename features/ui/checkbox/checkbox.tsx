@@ -1,8 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { color, textFont, space } from "@styles/theme";
+import { color } from "@styles/theme";
 
-// const [checkstate, setCheckstate] = useState("unchecked");
 export enum CheckboxSize {
   sm = "sm",
   md = "md",
@@ -18,17 +17,10 @@ type CheckboxProps = {
   children: React.ReactNode;
   size?: CheckboxSize;
   state?: CheckboxState;
-  // onClick?: () => toggleState();
   disabled?: boolean;
+  onChange?: (type: any) => void;
 };
 
-// export default function toggleState(checkbox) {
-//     if checkbox.checkstate === "unchecked" {
-//         setCheckstate(checked);
-//     } elseif checkbox.checkstate === "partchecked" {
-
-//     }
-// }
 const CheckboxContainer = styled.div<CheckboxProps>`
   ${(props) => {
     switch (props.size) {
@@ -65,8 +57,8 @@ const CheckboxSquare = styled.div<CheckboxProps>`
     switch (props.size) {
       case CheckboxSize.sm:
         return css`
-          width: 1rem;
-          height: 1rem;
+          min-width: 1rem;
+          min-height: 1rem;
           border-radius: 4px;
           font-size: 0.875rem;
           border: 1px solid ${color("gray", 300)};
@@ -76,8 +68,8 @@ const CheckboxSquare = styled.div<CheckboxProps>`
         `;
       case CheckboxSize.md:
         return css`
-          width: 1.25rem;
-          height: 1.25rem;
+          min-width: 1.25rem;
+          min-height: 1.25rem;
           border-radius: 6px;
           font-size: 1rem;
           border: 1px solid ${color("gray", 300)};
@@ -106,18 +98,12 @@ const CheckboxSquare = styled.div<CheckboxProps>`
         `;
       case CheckboxState.checked:
         return css`
-          &::before {
-            content: "";
-            display: block;
-            width: 100%;
-            height: 100%;
-            background-image: url("/icons/check-large.svg");
-            background-repeat: no-repeat;
-            background-size: 0.8em;
-            background-position: center center;
-          }
           border: 1px solid ${color("primary", 600)};
-          background: ${color("primary", 50)};
+          background-color: ${color("primary", 50)};
+          background-image: url("/icons/check-large.svg");
+          background-repeat: no-repeat;
+          background-size: 0.8em;
+          background-position: center center;
           &:focused:not(:disabled) {
             box-shadow: 0px 0px 0px 4px ${color("primary", 100)};
           }
@@ -127,17 +113,10 @@ const CheckboxSquare = styled.div<CheckboxProps>`
         `;
       case CheckboxState.partlychecked:
         return css`
-          &&:before {
-            content: "";
-            display: block;
-            width: 100%;
-            height: 100%;
-            background-image: url("/icons/partcheck-large.svg");
-            background-repeat: no-repeat;
-            background-size: 0.8em;
-            background-position: center center;
-          }
-
+          background-image: url("/icons/partcheck-large.svg");
+          background-repeat: no-repeat;
+          background-size: 0.8em;
+          background-position: center center;
           border: 1px solid ${color("primary", 600)};
           background: ${color("primary", 50)};
           &:focused:not(:disabled) {
@@ -152,27 +131,31 @@ const CheckboxSquare = styled.div<CheckboxProps>`
 `;
 
 export const Checkbox: React.FC<CheckboxProps> = ({
-  state = CheckboxState.unchecked,
+  state: initialCheckboxState = CheckboxState.unchecked,
   disabled = false,
   size = CheckboxSize.md,
-
-  //onClick,
   children,
-}) => (
-  <CheckboxContainer
-    state={state}
-    size={size}
-    disabled={disabled}
-    // onClick = {onClick}
-  >
-    <CheckboxSquare
-      state={state}
-      size={size}
-      disabled={disabled}
-      // onClick = {onClick}
-    >
-      {""}
-    </CheckboxSquare>
-    {children}
-  </CheckboxContainer>
-);
+}) => {
+  const [checkboxState, setCheckboxState] =
+    React.useState(initialCheckboxState);
+  const toggleState = () => {
+    setCheckboxState(
+      checkboxState === CheckboxState.unchecked
+        ? CheckboxState.checked
+        : CheckboxState.unchecked
+    );
+  };
+  return (
+    <CheckboxContainer state={checkboxState} size={size} disabled={disabled}>
+      <CheckboxSquare
+        state={checkboxState}
+        size={size}
+        disabled={disabled}
+        onClick={toggleState}
+      >
+        {""}
+      </CheckboxSquare>
+      {children}
+    </CheckboxContainer>
+  );
+};
