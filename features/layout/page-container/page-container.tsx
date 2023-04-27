@@ -2,14 +2,7 @@ import React from "react";
 import Head from "next/head";
 import styled from "styled-components";
 import { SidebarNavigation } from "../sidebar-navigation";
-import {
-  color,
-  displayFont,
-  textFont,
-  space,
-  breakpoint,
-  zIndex,
-} from "@styles/theme";
+import { color, displayFont, textFont, space, breakpoint } from "@styles/theme";
 import { Footer } from "../footer";
 // import { ContentFooter} from "../sidebar-navigation";
 type PageContainerProps = {
@@ -83,7 +76,6 @@ export function PageContainer({ children, title, info }: PageContainerProps) {
         </ContentContainer>
         <Footer appVersion={appVersion} />
       </Main>
-      {/* <ContentFooter />  */}
     </Container>
   );
 }

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
-import { color, textFont, space } from "@styles/theme";
+import { color } from "@styles/theme";
 
 type InputProps = {
   hasError?: boolean;
@@ -10,6 +10,8 @@ type InputProps = {
   errorMessage?: string;
   hintMessage?: string;
   inputIcon?: string;
+  value?: string;
+  onChange?: (type: any) => void;
 };
 const InputContainer = styled.div`
   width: 320px;
@@ -120,9 +122,6 @@ const InputIcon = styled.div<InputProps>`
   background-position: center center;
 `;
 
-const NothingAdded = styled.div`
-  color: ${color("gray", 500)};
-`;
 const Hint = styled.div`
   color: ${color("gray", 500)};
   font-size: 0.875rem;
@@ -152,13 +151,23 @@ const Label = styled.div`
 
 export const Input: React.FC<InputProps> = ({
   hasError = false,
-  inputIcon = "/icons/email.svg",
-  labelText = "Email",
+  inputIcon = "",
+  labelText = "",
   disabled = false,
-  hintMessage = "This is a hint to help the user.",
-  errorMessage = "This is an error message.",
-  placeholder = "olivia@untitledui.com",
+  hintMessage = "",
+  errorMessage = "",
+  placeholder = "",
+  value = "",
+  onChange,
 }) => {
+  const [newValue, setValue] = useState(value);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+    if (onChange) {
+      onChange(event);
+    }
+  };
   return (
     <InputContainer>
       {labelText && <Label>{labelText}</Label>}
@@ -168,6 +177,8 @@ export const Input: React.FC<InputProps> = ({
           inputIcon={inputIcon}
           disabled={disabled}
           placeholder={placeholder}
+          value={newValue}
+          onChange={handleInputChange}
         />
         {hasError && <InputErrorIcon></InputErrorIcon>}
       </DynamicInputBox>

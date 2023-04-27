@@ -5,8 +5,13 @@ import { ProjectLanguage } from "@api/projects.types";
 import { useGetProjects } from "@features/projects";
 import { useGetIssues } from "../../api/use-get-issues";
 import { IssueRow } from "./issue-row";
+import { Filters } from "../filters/filters";
 
 const Container = styled.div`
+  width: 100%;
+`;
+
+const TableContainer = styled.div`
   background: white;
   border: 1px solid ${color("gray", 200)};
   box-sizing: border-box;
@@ -22,14 +27,28 @@ const Table = styled.table`
 `;
 
 const HeaderRow = styled.tr`
+  width: 100%;
   border-bottom: 1px solid ${color("gray", 200)};
 `;
 
 const HeaderCell = styled.th`
+  align-items: center;
   padding: ${space(3, 6)};
   text-align: left;
   color: ${color("gray", 500)};
   ${textFont("xs", "medium")};
+`;
+
+const HeaderCellDiv = styled.div`
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 0;
+`;
+
+const HeaderCellImage = styled.img`
+  height: 22px;
+  width: 22px;
 `;
 
 const PaginationContainer = styled.div`
@@ -69,13 +88,18 @@ export function IssueList() {
   const navigateToPage = (newPage: number) =>
     router.push({
       pathname: router.pathname,
-      query: { page: newPage },
+      query: {
+        page: newPage,
+      },
     });
 
-  const issuesPage = useGetIssues(page);
+  const IssuesPage = useGetIssues(page);
+
   const projects = useGetProjects();
 
-  if (projects.isLoading || issuesPage.isLoading) {
+  const { items, meta } = IssuesPage.data || {};
+
+  if (projects.isLoading || IssuesPage.isLoading) {
     return <div>Loading</div>;
   }
 
@@ -84,9 +108,9 @@ export function IssueList() {
     return <div>Error loading projects: {projects.error.message}</div>;
   }
 
-  if (issuesPage.isError) {
-    console.error(issuesPage.error);
-    return <div>Error loading issues: {issuesPage.error.message}</div>;
+  if (IssuesPage.isError) {
+    console.error(IssuesPage.error);
+    return <div>Error loading issues: {IssuesPage.error.message}</div>;
   }
 
   const projectIdToLanguage = (projects.data || []).reduce(
@@ -96,49 +120,57 @@ export function IssueList() {
     }),
     {} as Record<string, ProjectLanguage>
   );
-  const { items, meta } = issuesPage.data || {};
 
   return (
     <Container>
-      <Table>
-        <thead>
-          <HeaderRow>
-            <HeaderCell>Issue</HeaderCell>
-            <HeaderCell>Level</HeaderCell>
-            <HeaderCell>Events</HeaderCell>
-            <HeaderCell>Users</HeaderCell>
-          </HeaderRow>
-        </thead>
-        <tbody>
-          {(items || []).map((issue) => (
-            <IssueRow
-              key={issue.id}
-              issue={issue}
-              projectLanguage={projectIdToLanguage[issue.projectId]}
-            />
-          ))}
-        </tbody>
-      </Table>
-      <PaginationContainer>
-        <div>
-          <PaginationButton
-            onClick={() => navigateToPage(page - 1)}
-            disabled={page === 1}
-          >
-            Previous
-          </PaginationButton>
-          <PaginationButton
-            onClick={() => navigateToPage(page + 1)}
-            disabled={page === meta?.totalPages}
-          >
-            Next
-          </PaginationButton>
-        </div>
-        <PageInfo>
-          Page <PageNumber>{meta?.currentPage}</PageNumber> of{" "}
-          <PageNumber>{meta?.totalPages}</PageNumber>
-        </PageInfo>
-      </PaginationContainer>
+      <Filters />
+      <TableContainer>
+        <Table>
+          <thead>
+            <HeaderRow>
+              <HeaderCell>
+                <HeaderCellDiv>
+                  <HeaderCellImage src="/icons/checkbox-example.svg" />
+                  Issue
+                </HeaderCellDiv>
+              </HeaderCell>
+
+              <HeaderCell>Level</HeaderCell>
+              <HeaderCell>Events</HeaderCell>
+              <HeaderCell>Users</HeaderCell>
+            </HeaderRow>
+          </thead>
+          <tbody>
+            {(items || []).map((issue) => (
+              <IssueRow
+                key={issue.id}
+                issue={issue}
+                projectLanguage={projectIdToLanguage[issue.projectId]}
+              />
+            ))}
+          </tbody>
+        </Table>
+        <PaginationContainer>
+          <div>
+            <PaginationButton
+              onClick={() => navigateToPage(page - 1)}
+              disabled={page === 1}
+            >
+              Previous
+            </PaginationButton>
+            <PaginationButton
+              onClick={() => navigateToPage(page + 1)}
+              disabled={page === meta?.totalPages}
+            >
+              Next
+            </PaginationButton>
+          </div>
+          <PageInfo>
+            Page <PageNumber>{meta?.currentPage}</PageNumber> of{" "}
+            <PageNumber>{meta?.totalPages}</PageNumber>
+          </PageInfo>
+        </PaginationContainer>
+      </TableContainer>
     </Container>
   );
 }

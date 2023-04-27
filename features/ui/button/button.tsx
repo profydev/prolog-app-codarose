@@ -31,6 +31,8 @@ const ButtonContainer = styled.button<ButtonProps>`
   cursor: pointer;
   display: flex;
   align-items: center;
+  gap: 11.33px;
+  box-sizing: border-box;
 
   // remove default button styles
   border: none;
@@ -53,22 +55,26 @@ const ButtonContainer = styled.button<ButtonProps>`
       case ButtonSize.sm:
         return css`
           padding: 0.5rem 0.875rem;
-          ${textFont("sm", "medium")}
+          ${textFont("sm", "medium")};
+          height: 36px;
         `;
       case ButtonSize.md:
         return css`
           padding: 0.625rem 1rem;
-          ${textFont("sm", "medium")}
+          ${textFont("sm", "medium")};
+          height: 40px;
         `;
       case ButtonSize.lg:
         return css`
           padding: 0.625rem 1.125rem;
-          ${textFont("md", "medium")}
+          ${textFont("md", "medium")};
+          height: 44px;
         `;
       case ButtonSize.xl:
         return css`
           padding: ${space(3, 5)};
-          ${textFont("md", "medium")}
+          ${textFont("md", "medium")};
+          height: 48px;
         `;
     }
   }}

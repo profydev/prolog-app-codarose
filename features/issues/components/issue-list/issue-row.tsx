@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import styled from "styled-components";
 import capitalize from "lodash/capitalize";
 import { color, space, textFont } from "@styles/theme";
@@ -5,7 +7,7 @@ import { Badge, BadgeColor, BadgeSize } from "@features/ui";
 import { ProjectLanguage } from "@api/projects.types";
 import { IssueLevel } from "@api/issues.types";
 import type { Issue } from "@api/issues.types";
-
+import { Checkbox, CheckboxSize, CheckboxState } from "@features/ui";
 type IssueRowProps = {
   projectLanguage: ProjectLanguage;
   issue: Issue;
@@ -32,6 +34,7 @@ const Cell = styled.td`
 const IssueCell = styled(Cell)`
   display: flex;
   align-items: center;
+  gap: 14px;
 `;
 
 const LanguageIcon = styled.img`
@@ -48,23 +51,30 @@ const ErrorType = styled.span`
 `;
 
 export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
-  const { name, message, stack, level, numEvents, numUsers } = issue;
+  const { name, message, stack, level, numEvents, numUsers, status } = issue;
+
   const firstLineOfStackTrace = stack.split("\n")[1];
+  const [currentCheckboxState, setCurrentCheckboxState] = useState(
+    status === "open" ? CheckboxState.unchecked : CheckboxState.checked
+  );
 
   return (
     <Row>
       <IssueCell>
-        <LanguageIcon
-          src={`/icons/${projectLanguage}.svg`}
-          alt={projectLanguage}
-        />
-        <div>
-          <ErrorTypeAndMessage>
-            <ErrorType>{name}:&nbsp;</ErrorType>
-            {message}
-          </ErrorTypeAndMessage>
-          <div>{firstLineOfStackTrace}</div>
-        </div>
+        <Checkbox size={CheckboxSize.md} state={currentCheckboxState}>
+          <LanguageIcon
+            src={`/icons/${projectLanguage}.svg`}
+            alt={projectLanguage}
+          />
+
+          <div>
+            <ErrorTypeAndMessage>
+              <ErrorType>{name}:&nbsp;</ErrorType>
+              {message}
+            </ErrorTypeAndMessage>
+            <div>{firstLineOfStackTrace}</div>
+          </div>
+        </Checkbox>
       </IssueCell>
       <Cell>
         <Badge color={levelColors[level]} size={BadgeSize.sm}>

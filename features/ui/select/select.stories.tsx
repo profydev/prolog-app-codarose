@@ -34,6 +34,11 @@ export const Default = Template.bind({});
 Default.args = {
   hasError: false,
   disabled: false,
+  options: [],
+  hintMessage: "",
+  errorMessage: "",
+  labelText: "",
+  placeholder: "",
 };
 Default.parameters = {
   viewMode: "docs",

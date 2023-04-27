@@ -12,6 +12,7 @@ const nextConfig = {
   },
   env: {
     APP_VERSION_NUMBER: version,
+    API_TOKEN: "7077c829fead421cd0c63713653bd38435a9c443",
   },
 };
 
