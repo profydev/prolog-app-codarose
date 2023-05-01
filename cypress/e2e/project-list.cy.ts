@@ -49,7 +49,10 @@ describe("Project List", () => {
         .and("contain", "7")
         .and("contain", "Critical")
         .and("contain", "Frontend - Web Test")
-        .and("contain", "React");
+        .and("contain", "React")
+        .and("contain", "View issues");
+      //check to see that the view issues button has the correct route for filtering
+      cy.get('[href*="project=Frontend%20-%20Web"]').should("exist");
 
       cy.get("#project_second")
         .children()
@@ -57,7 +60,11 @@ describe("Project List", () => {
         .and("contain", "5")
         .and("contain", "Warning")
         .and("contain", "Backend")
-        .and("contain", "Node");
+        .and("contain", "Node")
+        .and("contain", "View issues");
+
+      //check to see that the view issues button has the correct route for filtering
+      cy.get('[href*="project=Backend"]').should("exist");
 
       cy.get("#project_third")
         .children()
@@ -65,7 +72,11 @@ describe("Project List", () => {
         .and("contain", "0")
         .and("contain", "Stable")
         .and("contain", "ML Service")
-        .and("contain", "Python");
+        .and("contain", "Python")
+        .and("contain", "View issues");
+
+      //check to see that the view issues button has the correct route for filtering
+      cy.get('[href*="project=ML%20Service"]').should("exist");
     });
   });
 });

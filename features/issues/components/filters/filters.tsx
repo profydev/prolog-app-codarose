@@ -2,8 +2,15 @@ import styled from "styled-components";
 import { Button, ButtonVariant, Select, Input } from "@features/ui";
 import { IssueStatus, IssueLevel } from "@api/issues.types";
 import { useFilters } from "./use-filters";
-
+import { breakpoint } from "@styles/theme";
 const FilteringButtonsContainer = styled.div`
+  @media (max-width: ${breakpoint("mobile")}) {
+    flex-direction: column;
+    justify-content: center;
+    margin-block: 1rem;
+    min-width: 100%;
+    gap: 16px;
+  }
   display: flex;
   flex-flow: row wrap;
   min-width: 600px;
@@ -13,9 +20,16 @@ const FilteringButtonsContainer = styled.div`
 `;
 
 const FilteringInputBoxesContainer = styled.div`
+  @media (max-width: ${breakpoint("mobile")}) {
+    display: flex;
+    flex-direction: column;
+    min-width: 100%;
+    gap: 16px;
+  }
   display: flex;
+  gap: 16px;
   flex-flow: row wrap;
-
+  min-width: 600px;
   gap: 16px;
   & > * {
   }
