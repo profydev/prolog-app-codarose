@@ -7,6 +7,7 @@ import { useGetIssues } from "../../api/use-get-issues";
 import { IssueRow } from "./issue-row";
 import { Filters } from "../filters/filters";
 import { useFilters } from "../filters/use-filters";
+
 const Container = styled.div`
   width: 100%;
 `;
@@ -92,12 +93,14 @@ export function IssueList() {
       query: {
         page: newPage,
         ...filters,
+
       },
     });
 
   const IssuesPage = useGetIssues(page);
 
   const projects = useGetProjects();
+
 
   if (projects.isLoading || IssuesPage.isLoading) {
     return <div>Loading</div>;
@@ -122,6 +125,7 @@ export function IssueList() {
   );
 
   const { items, meta } = IssuesPage.data || {};
+
 
   return (
     <Container>
