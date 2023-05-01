@@ -96,9 +96,10 @@ const MenuButton = styled(Button)`
 const MenuIcon = styled.img`
   display: block;
   width: ${space(10)};
- 
+  @media (min-width: ${breakpoint("desktop")}) {
+    display: none;
+  }
 }
- 
 `;
 
 const MenuOverlay = styled.div<{ isMobileMenuOpen: boolean }>`
