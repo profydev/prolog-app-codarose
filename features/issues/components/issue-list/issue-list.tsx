@@ -6,7 +6,7 @@ import { useGetProjects } from "@features/projects";
 import { useGetIssues } from "../../api/use-get-issues";
 import { IssueRow } from "./issue-row";
 import { Filters } from "../filters/filters";
-
+import { useFilters } from "../filters/use-filters";
 const Container = styled.div`
   width: 100%;
 `;
@@ -85,19 +85,18 @@ const PageNumber = styled.span`
 export function IssueList() {
   const router = useRouter();
   const page = Number(router.query.page || 1);
+  const { filters } = useFilters();
   const navigateToPage = (newPage: number) =>
     router.push({
       pathname: router.pathname,
       query: {
         page: newPage,
+        ...filters,
       },
     });
 
   const IssuesPage = useGetIssues(page);
-
   const projects = useGetProjects();
-
-  const { items, meta } = IssuesPage.data || {};
 
   if (projects.isLoading || IssuesPage.isLoading) {
     return <div>Loading</div>;
@@ -120,6 +119,8 @@ export function IssueList() {
     }),
     {} as Record<string, ProjectLanguage>
   );
+
+  const { items, meta } = IssuesPage.data || {};
 
   return (
     <Container>
