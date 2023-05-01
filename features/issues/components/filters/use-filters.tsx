@@ -8,7 +8,6 @@ export const useFilters = () => {
     level: router.query.level,
     project: router.query.project,
   } as QueryFilters;
-
   const handleFilters = (newFilters: QueryFilters) => {
     const query = { ...router.query, ...newFilters };
     router.push({ query });
