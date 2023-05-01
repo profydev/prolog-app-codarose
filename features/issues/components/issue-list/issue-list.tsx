@@ -85,7 +85,7 @@ const PageNumber = styled.span`
 export function IssueList() {
   const router = useRouter();
   const page = Number(router.query.page || 1);
-  const { filters, handleFilters } = useFilters();
+  const { filters } = useFilters();
   const navigateToPage = (newPage: number) =>
     router.push({
       pathname: router.pathname,
@@ -96,7 +96,6 @@ export function IssueList() {
     });
 
   const IssuesPage = useGetIssues(page);
-
   const projects = useGetProjects();
 
   if (projects.isLoading || IssuesPage.isLoading) {
