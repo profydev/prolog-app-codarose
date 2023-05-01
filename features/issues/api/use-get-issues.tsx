@@ -16,7 +16,7 @@ export function getQueryKey(page?: number, filters?: QueryFilters) {
 export function useGetIssues(page: number) {
   const { filters } = useFilters();
   const query = useQuery<Page<Issue>, Error>(
-    getQueryKey(page),
+    getQueryKey(page, filters),
     ({ signal }) => getIssues(page, filters, { signal }),
     { keepPreviousData: true }
   );
@@ -30,11 +30,6 @@ export function useGetIssues(page: number) {
       );
     }
   }, [query.data, page, filters, queryClient]);
-
-  useEffect(() => {
-    queryClient.invalidateQueries(getQueryKey(page));
-    query.refetch();
-  }, [filters]);
 
   return query;
 }
