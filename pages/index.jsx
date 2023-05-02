@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Routes } from "@config/routes";
-
+import { Button, ButtonVariant } from "@features/ui";
 const Header = styled.header`
   width: 100%;
   height: 80px;
@@ -28,13 +28,49 @@ const ContactButton = styled.button`
   }
 `;
 
+const CenterButtonsContainer = styled.div`
+  display: flex;
+`;
+
 const IssuesPage = () => {
   return (
     <div>
       <Header>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/icons/logo-large.svg" alt="Prolog logo" />
-        <a href={Routes.projects}>Dashboard</a>
+        <CenterButtonsContainer>
+          <Button
+            variant={ButtonVariant.emptygray}
+            onClick={() => (window.location.href = `${Routes.home}`)}
+          >
+            Home
+          </Button>
+          <Button
+            variant={ButtonVariant.emptygray}
+            onClick={() => (window.location.href = `${Routes.products}`)}
+          >
+            Products
+          </Button>
+          <Button
+            variant={ButtonVariant.emptygray}
+            onClick={() => (window.location.href = `${Routes.documentation}`)}
+          >
+            Documentation
+          </Button>
+          <Button
+            variant={ButtonVariant.emptygray}
+            onClick={() => (window.location.href = `${Routes.pricing}`)}
+          >
+            Pricing
+          </Button>
+        </CenterButtonsContainer>
+
+        <Button
+          variant={ButtonVariant.primary}
+          onClick={() => (window.location.href = `${Routes.projects}`)}
+        >
+          Open Dashboard
+        </Button>
       </Header>
       <ContactButton
         onClick={() =>
