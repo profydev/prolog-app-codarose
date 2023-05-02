@@ -51,7 +51,6 @@ describe("Issue List", () => {
 
     it("renders the issues", () => {
       cy.get("main")
-        .find('[class^="issue-list"]')
         .find("tr")
         .each(($el, index) => {
           const issue = mockIssues1.items[index];
