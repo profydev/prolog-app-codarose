@@ -3,6 +3,8 @@ import { Button, ButtonVariant, Select, Input } from "@features/ui";
 import { IssueStatus, IssueLevel } from "@api/issues.types";
 import { useFilters } from "./use-filters";
 import { breakpoint } from "@styles/theme";
+import { NavigationContext } from "@features/layout";
+import { useContext } from "react";
 const FilteringButtonsContainer = styled.div`
   @media (max-width: ${breakpoint("mobile")}) {
     flex-direction: column;
@@ -10,7 +12,12 @@ const FilteringButtonsContainer = styled.div`
     margin-block: 1rem;
     min-width: 100%;
     gap: 16px;
+
+    & > * {
+      justify-content: center;
+    }
   }
+
   display: flex;
   flex-flow: row wrap;
   min-width: 600px;
@@ -25,22 +32,28 @@ const FilteringInputBoxesContainer = styled.div`
     flex-direction: column;
     min-width: 100%;
     gap: 16px;
+    order: -1;
   }
   display: flex;
   gap: 16px;
   flex-flow: row wrap;
   min-width: 600px;
   gap: 16px;
-  & > * {
-  }
+  order: 0;
 `;
 export function Filters() {
+  const { isMobileMenuOpen } = useContext(NavigationContext);
+
   const { handleFilters, filters } = useFilters();
 
   const handleStatusFilterChange = (status?: string) => {
     if (status) {
       status = status?.toLowerCase();
-      status == "unresolved" ? (status = "open") : "resolved";
+      status == "all"
+        ? (status = "")
+        : status == "unresolved"
+        ? (status = "open")
+        : "resolved";
     }
 
     handleFilters({ status: status as IssueStatus });
@@ -49,6 +62,7 @@ export function Filters() {
   const handleLevelFilterChange = (level?: string) => {
     if (level) {
       level = level?.toLowerCase();
+      level == "all" ? (level = "") : level;
     }
     handleFilters({ level: level as IssueLevel });
   };
@@ -80,7 +94,6 @@ export function Filters() {
   const getLevelFilterLabel = (level: IssueLevel | undefined): string => {
     return level ? levelFilterLabels[level] : "";
   };
-
   return (
     <FilteringButtonsContainer>
       <Button variant={ButtonVariant.primary}>
@@ -90,18 +103,21 @@ export function Filters() {
 
       <FilteringInputBoxesContainer>
         <Select
+          disabled={isMobileMenuOpen}
           onChange={(value) => handleStatusFilterChange(value)}
-          options={["", ...statusFilterOptions]}
+          options={["All", ...statusFilterOptions]}
           value={getStatusFilterLabel(filters.status) || ""}
           placeholder="Status"
         ></Select>
         <Select
+          disabled={isMobileMenuOpen}
           onChange={(value) => handleLevelFilterChange(value)}
-          options={["", ...levelFilterOptions]}
+          options={["All", ...levelFilterOptions]}
           value={getLevelFilterLabel(filters.level) || ""}
           placeholder="Level"
         ></Select>
         <Input
+          disabled={isMobileMenuOpen}
           placeholder="Project name"
           inputIcon="/icons/search.svg"
           value={filters.project || ""}

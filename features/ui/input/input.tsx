@@ -14,7 +14,7 @@ type InputProps = {
   onChange?: (type: any) => void;
 };
 const InputContainer = styled.div`
-  width: 320px;
+  min-width: 320px;
   display: block;
 `;
 const DynamicInputBox = styled.div<InputProps>`
@@ -23,7 +23,7 @@ const DynamicInputBox = styled.div<InputProps>`
   text-align: left;
   margin: 0px;
   padding: 0;
-  width: 320px;
+  min-width: 320px;
   box-sizing: border-box;
   color: ${color("gray", 900)};
   border: 1px solid ${color("gray", 300)};
@@ -50,6 +50,7 @@ const DynamicInputBox = styled.div<InputProps>`
   ${(props) =>
     props.disabled &&
     css`
+      position: static;
       color: ${color("gray", 500)};
       background: ${color("gray", 50)};
       border: 1px solid ${color("gray", 300)};
@@ -80,7 +81,7 @@ const DynamicInputBox = styled.div<InputProps>`
 `;
 
 const DynamicInput = styled.input<InputProps>`
-  width: 320px;
+  min-width: 320px;
   position: absolute;
   left: 14px;
   bottom: 11px;

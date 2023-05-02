@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import styled, { css } from "styled-components";
 import { color } from "@styles/theme";
+import { useClickAway } from "react-use";
 
 // const nameData = [
 //   "Olivia Rhye",
@@ -73,6 +74,7 @@ const SelectDropdown = styled.div<SelectDropdownProps>`
   ${(props) =>
     props.disabled &&
     css`
+      position: static;
       color: ${color("gray", 500)};
       background: ${color("gray", 50)};
       border: 1px solid ${color("gray", 300)};
@@ -102,7 +104,7 @@ const SelectDropdownButton = styled.button`
 const SelectDropdownList = styled.ul<SelectDropdownProps>`
   list-style: none;
   position: absolute;
-  width: 100%;
+  min-width: 100%;
   top: 100%;
   left: 0;
   width: 320px;
@@ -111,7 +113,7 @@ const SelectDropdownList = styled.ul<SelectDropdownProps>`
   height: fit-content;
   font-size: 1rem;
   background: white;
-
+  z-index: 1;
   box-shadow: 0px 12px 16px -4px ${color("gray", 100)},
     0px 4px 6px -2px ${color("gray", 100)};
   border-radius: 0.5rem;
@@ -181,9 +183,16 @@ export const Select: React.FC<SelectDropdownProps> = ({
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [optionSelected, setOptionSelected] = useState(value || "");
+  const ref = useRef(null);
+  const closeDropdown = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
   const toggleOpen = () => {
-    setIsOpen(!isOpen);
+    setIsOpen((prevIsOpen) => !prevIsOpen);
   };
+
+  useClickAway(ref, closeDropdown);
 
   const handleSelect = (newValue: string) => {
     setOptionSelected(newValue);
@@ -191,7 +200,7 @@ export const Select: React.FC<SelectDropdownProps> = ({
     onChange && onChange(newValue);
   };
   return (
-    <SelectDropdownContainer>
+    <SelectDropdownContainer ref={ref}>
       {labelText && <Label>{labelText}</Label>}
 
       <SelectDropdown disabled={disabled} hasError={hasError}>

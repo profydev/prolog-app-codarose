@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import styled from "styled-components";
 import capitalize from "lodash/capitalize";
-import { color, space, textFont } from "@styles/theme";
+import { color, space, textFont, breakpoint } from "@styles/theme";
 import { Badge, BadgeColor, BadgeSize } from "@features/ui";
 import { ProjectLanguage } from "@api/projects.types";
 import { IssueLevel } from "@api/issues.types";
@@ -20,21 +20,54 @@ const levelColors = {
 };
 
 const Row = styled.tr`
-  &:nth-child(2n) {
-    background: ${color("gray", 50)};
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  @media (min-width: ${breakpoint("desktop")}) {
+    flex-direction: row;
+    justify-content: space-between;
+    &:nth-child(2n) {
+      background: ${color("gray", 50)};
+    }
   }
 `;
 
 const Cell = styled.td`
   padding: ${space(4, 6)};
   color: ${color("gray", 500)};
-  ${textFont("sm", "regular")}
+  ${textFont("sm", "regular")};
+  @media (min-width: ${breakpoint("desktop")}) {
+    width: 100%;
+  }
+`;
+
+const CellLabel = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  text-align: center;
+  justify-content: center;
+  @media (min-width: ${breakpoint("desktop")}) {
+    display: none;
+  }
 `;
 
 const IssueCell = styled(Cell)`
   display: flex;
   align-items: center;
   gap: 14px;
+  flex: 2.1;
+`;
+
+const OtherCells = styled.div`
+  display: flex;
+  justify-content: center;
+  text-align: left;
+  flex: 1;
+  @media (min-width: ${breakpoint("desktop")}) {
+    text-align: left;
+    justify-content: space-around;
+  }
 `;
 
 const LanguageIcon = styled.img`
@@ -48,6 +81,11 @@ const ErrorTypeAndMessage = styled.div`
 
 const ErrorType = styled.span`
   ${textFont("sm", "medium")}
+`;
+
+const StackTrace = styled.div`
+  font-weight: 400;
+  color: ${color("gray", 500)};
 `;
 
 export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
@@ -72,17 +110,26 @@ export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
               <ErrorType>{name}:&nbsp;</ErrorType>
               {message}
             </ErrorTypeAndMessage>
-            <div>{firstLineOfStackTrace}</div>
+            <StackTrace>{firstLineOfStackTrace}</StackTrace>
           </div>
         </Checkbox>
       </IssueCell>
-      <Cell>
-        <Badge color={levelColors[level]} size={BadgeSize.sm}>
-          {capitalize(level)}
-        </Badge>
-      </Cell>
-      <Cell>{numEvents}</Cell>
-      <Cell>{numUsers}</Cell>
+      <OtherCells>
+        <Cell>
+          <CellLabel>Level</CellLabel>
+          <Badge color={levelColors[level]} size={BadgeSize.sm}>
+            {capitalize(level)}
+          </Badge>
+        </Cell>
+        <Cell>
+          <CellLabel>Events</CellLabel>
+          {numEvents}
+        </Cell>
+        <Cell>
+          <CellLabel>Users</CellLabel>
+          {numUsers}
+        </Cell>
+      </OtherCells>
     </Row>
   );
 }
