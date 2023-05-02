@@ -7,45 +7,111 @@ import { useGetIssues } from "../../api/use-get-issues";
 import { IssueRow } from "./issue-row";
 import { Filters } from "../filters/filters";
 import { useFilters } from "../filters/use-filters";
+import { breakpoint } from "@styles/theme";
+
 const Container = styled.div`
   width: 100%;
 `;
 
-const TableContainer = styled.div`
-  background: white;
-  border: 1px solid ${color("gray", 200)};
-  box-sizing: border-box;
-  box-shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.1),
-    0px 2px 4px -2px rgba(16, 24, 40, 0.06);
-  border-radius: ${space(2)};
-  overflow: hidden;
+const IssueContainer = styled.div`
+  border: none;
+  box-shadow: none;
+  @media (min-width: ${breakpoint("desktop")}) {
+    background: white;
+    display: table;
+    width: 100%;
+    border: 1px solid ${color("gray", 200)};
+    box-sizing: border-box;
+    box-shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.1),
+      0px 2px 4px -2px rgba(16, 24, 40, 0.06);
+    border-radius: ${space(2)};
+    overflow: hidden;
+  }
 `;
 
-const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-`;
-
-const HeaderRow = styled.tr`
-  width: 100%;
-  border-bottom: 1px solid ${color("gray", 200)};
-`;
-
-const HeaderCell = styled.th`
+const IssueContent = styled.div`
+  
+  & > :nth-child(2) {
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
   align-items: center;
-  padding: ${space(3, 6)};
-  text-align: left;
-  color: ${color("gray", 500)};
-  ${textFont("xs", "medium")};
+  align-content: center;
+  width: 100%; 
+  }
+  @media (min-width: ${breakpoint("desktop")}) {
+    display: table; 
+    width: 100%;
+    border-collapse: collapse;
+     & > :nth-child(2) {
+    display: table; 
+     } 
+  }
+ 
+  }
+`;
+
+const IssueRowContainer = styled.div`
+  display: flex;
+  & > * {
+    border: 1px solid ${color("gray", 200)};
+    box-sizing: border-box;
+    box-shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.1),
+      0px 2px 4px -2px rgba(16, 24, 40, 0.06);
+    border-radius: ${space(2)};
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  @media (min-width: ${breakpoint("desktop")}) {
+    & > * {
+      border: none;
+      box-shadow: none;
+      border-radius: none;
+    }
+  }
+`;
+
+const HeaderRow = styled.div`
+  display: none;
+  @media (min-width: ${breakpoint("desktop")}) {
+    display: flex;
+    width: 100%;
+    & > * {
+      flex: 1;
+    }
+    & > :nth-child(1) {
+      flex: 2.1;
+    }
+  }
+`;
+
+const HeaderCell = styled.td`
+  @media (min-width: ${breakpoint("desktop")}) {
+    align-items: center;
+    width: 100%;
+    padding: ${space(3, 6)};
+    text-align: left;
+    color: ${color("gray", 500)};
+    ${textFont("xs", "medium")};
+    border-bottom: 1px solid ${color("gray", 200)};
+  }
 `;
 
 const HeaderCellDiv = styled.div`
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  padding: 0;
+  display: none;
+  @media (min-width: ${breakpoint("desktop")}) {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 0;
+  }
 `;
 
+const OtherCells = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+`;
 const HeaderCellImage = styled.img`
   height: 22px;
   width: 22px;
@@ -125,23 +191,23 @@ export function IssueList() {
   return (
     <Container>
       <Filters />
-      <TableContainer>
-        <Table>
-          <thead>
-            <HeaderRow>
-              <HeaderCell>
-                <HeaderCellDiv>
-                  <HeaderCellImage src="/icons/checkbox-example.svg" />
-                  Issue
-                </HeaderCellDiv>
-              </HeaderCell>
-
+      <IssueContainer>
+        <IssueContent>
+          <HeaderRow>
+            <HeaderCell>
+              <HeaderCellDiv>
+                <HeaderCellImage src="/icons/checkbox-example.svg" />
+                Issue
+              </HeaderCellDiv>
+            </HeaderCell>
+            <OtherCells>
               <HeaderCell>Level</HeaderCell>
               <HeaderCell>Events</HeaderCell>
               <HeaderCell>Users</HeaderCell>
-            </HeaderRow>
-          </thead>
-          <tbody>
+            </OtherCells>
+          </HeaderRow>
+
+          <IssueRowContainer>
             {(items || []).map((issue) => (
               <IssueRow
                 key={issue.id}
@@ -149,8 +215,8 @@ export function IssueList() {
                 projectLanguage={projectIdToLanguage[issue.projectId]}
               />
             ))}
-          </tbody>
-        </Table>
+          </IssueRowContainer>
+        </IssueContent>
         <PaginationContainer>
           <div>
             <PaginationButton
@@ -171,7 +237,7 @@ export function IssueList() {
             <PageNumber>{meta?.totalPages}</PageNumber>
           </PageInfo>
         </PaginationContainer>
-      </TableContainer>
+      </IssueContainer>
     </Container>
   );
 }

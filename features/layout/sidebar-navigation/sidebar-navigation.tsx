@@ -170,7 +170,7 @@ const CollapseMenuItem = styled(MenuItemButton)`
 export function SidebarNavigation() {
   const router = useRouter();
   const { isSidebarCollapsed, toggleSidebar } = useContext(NavigationContext);
-  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { isMobileMenuOpen, toggleMobileMenu } = useContext(NavigationContext);
   return (
     <Container isCollapsed={isSidebarCollapsed}>
       <FixedContainer>
@@ -187,7 +187,7 @@ export function SidebarNavigation() {
             alt="logo"
           />
 
-          <MenuButton onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}>
+          <MenuButton onClick={() => toggleMobileMenu()}>
             <MenuIcon
               src={isMobileMenuOpen ? "/icons/close.svg" : "/icons/menu.svg"}
               alt={isMobileMenuOpen ? "close menu" : "open menu"}
