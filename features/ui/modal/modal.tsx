@@ -6,9 +6,6 @@ import { useState } from "react";
 type ModalProps = {
   cancel?: () => void;
 };
-const backdropFilterStyle = {
-  backdropFilter: "blur(20px)",
-};
 
 const PageOverlay = styled.div`
   position: absolute;
@@ -75,7 +72,7 @@ export const Modal: React.FC<ModalProps> = ({ cancel }) => {
     <PageOverlay>
       <ModalContainer>
         <ModalImage>
-          <img src="./icons/mail.svg" width="44px" />
+          <img src="/icons/mail.svg" width="44px" />
         </ModalImage>
         Contact Us Via Email
         <MessageText>

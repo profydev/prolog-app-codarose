@@ -170,16 +170,12 @@ const CollapseMenuItem = styled(MenuItemButton)`
 
 export function SidebarNavigation() {
   const router = useRouter();
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const { isModalOpen, toggleIsModalOpen } = useContext(NavigationContext);
   const { isSidebarCollapsed, toggleSidebar } = useContext(NavigationContext);
   const { isMobileMenuOpen, toggleMobileMenu } = useContext(NavigationContext);
   return (
     <Container isCollapsed={isSidebarCollapsed}>
-      {isModalVisible && (
-        <Modal
-          cancel={() => setIsModalVisible((isModalVisible) => !isModalVisible)}
-        />
-      )}
+      {isModalOpen && <Modal cancel={() => toggleIsModalOpen()} />}
       <FixedContainer>
         <Header>
           <LogoSmallScreen src="/icons/logo-large.svg" alt="logo" />
@@ -219,9 +215,7 @@ export function SidebarNavigation() {
               text="Support"
               iconSrc="/icons/support.svg"
               isCollapsed={isSidebarCollapsed}
-              onClick={() =>
-                setIsModalVisible((isModalVisible) => !isModalVisible)
-              }
+              onClick={() => toggleIsModalOpen()}
             />
 
             <CollapseMenuItem
