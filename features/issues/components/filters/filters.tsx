@@ -43,9 +43,10 @@ const FilteringInputBoxesContainer = styled.div`
 `;
 export function Filters() {
   const { isMobileMenuOpen } = useContext(NavigationContext);
+  const { isModalVisible } = useContext(NavigationContext);
 
   const { handleFilters, filters } = useFilters();
-
+  const disabledValue = isMobileMenuOpen || isModalVisible ? true : false;
   const handleStatusFilterChange = (status?: string) => {
     if (status) {
       status = status?.toLowerCase();
@@ -103,21 +104,21 @@ export function Filters() {
 
       <FilteringInputBoxesContainer>
         <Select
-          disabled={isMobileMenuOpen}
+          disabled={disabledValue}
           onChange={(value) => handleStatusFilterChange(value)}
           options={["All", ...statusFilterOptions]}
           value={getStatusFilterLabel(filters.status) || ""}
           placeholder="Status"
         ></Select>
         <Select
-          disabled={isMobileMenuOpen}
+          disabled={disabledValue}
           onChange={(value) => handleLevelFilterChange(value)}
           options={["All", ...levelFilterOptions]}
           value={getLevelFilterLabel(filters.level) || ""}
           placeholder="Level"
         ></Select>
         <Input
-          disabled={isMobileMenuOpen}
+          disabled={disabledValue}
           placeholder="Project name"
           inputIcon="/icons/search.svg"
           value={filters.project || ""}
