@@ -131,7 +131,7 @@ const ButtonContainer = styled.button<ButtonProps>`
         return css`
           background: white;
           color: ${color("gray", 700)};
-          box-shadow: 0px 1px 2px ${color("gray", 900)};
+
           border: 1px solid ${color("gray", 300)};
           &:hover:not(:disabled) {
             background: ${color("gray", 50)};

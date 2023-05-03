@@ -7,6 +7,7 @@ import { MenuItemButton } from "./menu-item-button";
 import { MenuItemLink } from "./menu-item-link";
 import { Button } from "@features/ui";
 import { breakpoint, color, space, zIndex } from "@styles/theme";
+import { Modal } from "@features/ui";
 
 const menuItems = [
   { text: "Projects", iconSrc: "/icons/projects.svg", href: Routes.projects },
@@ -169,10 +170,16 @@ const CollapseMenuItem = styled(MenuItemButton)`
 
 export function SidebarNavigation() {
   const router = useRouter();
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const { isSidebarCollapsed, toggleSidebar } = useContext(NavigationContext);
   const { isMobileMenuOpen, toggleMobileMenu } = useContext(NavigationContext);
   return (
     <Container isCollapsed={isSidebarCollapsed}>
+      {isModalVisible && (
+        <Modal
+          cancel={() => setIsModalVisible((isModalVisible) => !isModalVisible)}
+        />
+      )}
       <FixedContainer>
         <Header>
           <LogoSmallScreen src="/icons/logo-large.svg" alt="logo" />
@@ -213,8 +220,7 @@ export function SidebarNavigation() {
               iconSrc="/icons/support.svg"
               isCollapsed={isSidebarCollapsed}
               onClick={() =>
-                (window.location.href =
-                  "mailto:support@prolog-app.com?subject=Support Request: ")
+                setIsModalVisible((isModalVisible) => !isModalVisible)
               }
             />
 
