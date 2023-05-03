@@ -75,7 +75,7 @@ export const Modal: React.FC<ModalProps> = ({ cancel }) => {
     <PageOverlay>
       <ModalContainer>
         <ModalImage>
-          <img src="./icons/mail.svg" width="44px" />
+          <img src="/icons/mail.svg" width="44px" />
         </ModalImage>
         Contact Us Via Email
         <MessageText>
