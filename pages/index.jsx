@@ -1,6 +1,9 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Routes } from "@config/routes";
 import { Button, ButtonVariant } from "@features/ui";
+import { Modal } from "features/ui";
+import { useState } from "react";
+
 const Header = styled.header`
   width: 100%;
   height: 80px;
@@ -33,8 +36,15 @@ const CenterButtonsContainer = styled.div`
 `;
 
 const IssuesPage = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   return (
     <div>
+      {isModalVisible && (
+        <Modal
+          cancel={() => setIsModalVisible((isModalVisible) => !isModalVisible)}
+        />
+      )}
       <Header>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/icons/logo-large.svg" alt="Prolog logo" />
@@ -73,13 +83,8 @@ const IssuesPage = () => {
         </Button>
       </Header>
       <ContactButton
-        onClick={() =>
-          alert(
-            "Implement this in Challenge 2 - Modal:\n\nhttps://profy.dev/rjs-challenge-modal"
-          )
-        }
+        onClick={() => setIsModalVisible((isModalVisible) => !isModalVisible)}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/icons/message.svg" alt="Contact" />
       </ContactButton>
     </div>
