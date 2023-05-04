@@ -1,34 +1,41 @@
 import styled from "styled-components";
 import { Button, ButtonVariant } from "../button";
 import { color } from "@styles/theme";
-import { useState } from "react";
 
 type ModalProps = {
   cancel?: () => void;
 };
-const backdropFilterStyle = {
-  backdropFilter: "blur(20px)",
-};
 
 const PageOverlay = styled.div`
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
   display: flex;
   justify-content: center;
-  height: 100vh;
-  width: 100vw;
   backdrop-filter: blur(4px);
   text-align: center;
+
   &::before {
     content: "";
-    height: 100vh;
-    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
     opacity: 60%;
     background-color: #344054;
   }
 `;
 const ModalContainer = styled.div`
   box-sixing: border-box;
-  position: fixed;
+  margin: 80px auto;
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   justify-content: center;
