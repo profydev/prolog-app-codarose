@@ -1,8 +1,19 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { Routes } from "@config/routes";
 import { Button, ButtonVariant } from "@features/ui";
 import { Modal } from "features/ui";
 import { useState } from "react";
+import { Hero } from "../features/ui/hero";
+import { LandingPageData, HeroSection, SectionTypes } from "@api/data.types";
+
+export const getStaticProps = async () => {
+  const res = await fetch("https://prolog-api.profy.dev/content-page/home/");
+  const data = await res.json();
+
+  return {
+    props: { data },
+  };
+};
 
 const Header = styled.header`
   width: 100%;
@@ -16,7 +27,7 @@ const Header = styled.header`
 `;
 
 const ContactButton = styled.button`
-  position: absolute;
+  position: fixed;
   bottom: 2.5rem;
   right: 2.5rem;
   padding: 1rem;
@@ -35,8 +46,11 @@ const CenterButtonsContainer = styled.div`
   display: flex;
 `;
 
-const IssuesPage = () => {
+const HomePage = ({ data }: { data: LandingPageData }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const hero = data.sections.find(
+    (section) => section.sectionType === SectionTypes.hero
+  ) as HeroSection;
 
   return (
     <div>
@@ -82,6 +96,12 @@ const IssuesPage = () => {
           Open Dashboard
         </Button>
       </Header>
+      <Hero
+        title={hero.title}
+        description={hero.subtitle}
+        image={hero.image.src}
+      />
+
       <ContactButton
         onClick={() => setIsModalVisible((isModalVisible) => !isModalVisible)}
       >
@@ -91,4 +111,4 @@ const IssuesPage = () => {
   );
 };
 
-export default IssuesPage;
+export default HomePage;
